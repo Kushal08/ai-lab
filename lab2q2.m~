@@ -21,7 +21,7 @@ x = input("enter the percentage for training data")
 N = (s(1)*x)/100;
 
 % initial weights are a random number
-w(1:(s(2)-1)) = rand();
+w(1:(s(2)-1)) = rand()*1000;
 
 errors = 0;
 iterations = 0;

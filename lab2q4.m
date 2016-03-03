@@ -7,15 +7,25 @@ close all;
 
 % length of train dataset
 
+m=load("iris_data_norm_both.txt");
+s = size(m);
+% length of train dataset
+
+
 for k= 1:1:100
 	error_inside_sample(k)=0;
 	error_outside_sample(k)=0;
 endfor
 
-N = 45;
+%to take the input for percent
+x = input("enter the percentage for training data")
+
+N = (s(1)*x)/100;
 
 % initial weights are a random number
-w(1:4) = rand()*1000;
+w(1:(s(2)-1)) = rand()*1000;
+
+
 
 errors = 0;
 iterations = 0;
@@ -28,16 +38,16 @@ i=1;
 while(i <= N)
 
 	
-	data = [a1(i), a2(i), a3(i), a4(i)];	
+	data = m(i, 1:s(2)-1);
 	hypothesis = w * data';
 
-	if(hypothesis < 0 && tr(i) == 1 && flag != true)
+	if(hypothesis < 0 && m(i,s(2)) == 1 && flag != true)
 		w = w + data;	
 	endif	
-	if(hypothesis > 0 && tr(i) == -1 && flag != true)
+	if(hypothesis > 0 && m(i,s(2)) == -1 && flag != true)
 		w = w - data;	
 	endif
-	if((tr(i)==-1 && hypothesis>0)||(tr(i)==1 && hypothesis<0))
+	if((m(i,s(2))==-1 && hypothesis>0)||(m(i,s(2))==1 && hypothesis<0))
 		error_inside_sample(k)++;
 	endif
  	
@@ -58,9 +68,9 @@ endwhile
 i=N;
 while(i<150)
 	i=i+1;
-	data = [a1(i), a2(i), a3(i), a4(i)];
+	data = m(i, 1:s(2)-1);
 	hypothesis = w * data';
-	if((tr(i)==1 && hypothesis<0)||(tr(i)==-1 && hypothesis>0))
+	if((m(i,s(2))==1 && hypothesis<0)|| (m(i,s(2))==-1 && hypothesis>0))
 		error_outside_sample(k)++;
 	endif
 endwhile
